@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <link rel="stylesheet" href="/src/styles/header.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>News Explorer</title>
@@ -8,6 +9,35 @@
   <link rel="stylesheet" href="/src/styles/base.css">
 </head>
 <body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="#">News Explorer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="#" class="active">Home</a>
+        <a href="#saved" class="link-saved">Saved Articles</a>
+      </nav>
+      <div class="auth auth--guest">
+        <button class="btn-outline" type="button">Sign in</button>
+      </div>
+      <div class="auth auth--user">
+        <span class="text-muted" style="margin-right:8px;">Carlos</span>
+        <button class="btn-outline" type="button">Logout</button>
+      </div>
+      <button class="burger" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false" data-burger><span></span></button>
+    </div>
+    <div id="mobile-menu" class="mobile" data-mobile>
+      <nav aria-label="Mobile">
+        <a href="#" class="active">Home</a>
+        <a href="#saved" class="link-saved">Saved Articles</a>
+      </nav>
+      <div class="auth auth--guest" style="padding:8px 0;">
+        <button class="btn" type="button" style="width:100%">Sign in</button>
+      </div>
+      <div class="auth auth--user" style="padding:8px 0;">
+        <button class="btn" type="button" style="width:100%">Logout</button>
+      </div>
+    </div>
+  </header>
   <div class="container" style="margin: 32px auto;">
     <h1>News Explorer</h1>
     <section class="grid-cards" style="margin-top:24px;">
@@ -23,6 +53,7 @@
     <button class="btn">Buscar</button>
     <p class="input-error-msg" style="margin-top:12px;display:none;">Error de ejemplo</p>
   </div>
+  <script src="/src/scripts/header.js"></script>
   <script src="/src/scripts/header.js"></script>
 </body>
 </html>
