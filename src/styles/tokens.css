@@ -1,14 +1,14 @@
 /* ========= TOKENS (Figma-like names) ========= */
 :root {
   /* Colors */
-  --background: #ffffff; /* page bg */
-  --main-text: #1a1b22; /* primary text */
-  --secondary-text: #b6bcbf; /* muted text */
-  --accent-color: #2f71e5; /* primary / links / buttons */
-  --accent-color-hover: #0050b3; /* hover state */
-  --surface: #f5f6f7; /* light blocks bg */
-  --border-color: #d1d2d6; /* subtle borders */
-  --error-color: #ff0000; /* form error */
+  --background: #ffffff;
+  --main-text: #1a1b22;
+  --secondary-text: #b6bcbf;
+  --accent-color: #2f71e5;
+  --accent-color-hover: #0050b3;
+  --surface: #f5f6f7;
+  --border-color: #d1d2d6;
+  --error-color: #ff0000;
 
   /* Typography */
   --font-sans:
@@ -41,7 +41,7 @@
   --radius: 12px;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
-  /* Breakpoints (aprox del layout) */
+  /* Breakpoints */
   --bp-sm: 640px;
   --bp-md: 768px;
   --bp-lg: 1024px;
