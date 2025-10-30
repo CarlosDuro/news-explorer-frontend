@@ -27,7 +27,7 @@
     const body = document.body;
     if(state.token){ body.classList.add('is-authenticated'); } else { body.classList.remove('is-authenticated'); }
     const nameSpan = document.querySelector('.auth.auth--user span');
-    if(nameSpan && state.user?.name) nameSpan.textContent = state.user.name;
+    if(nameSpan && state.user?.name) nameSpan.textContent = state.user.name || '';
   }
 
   async function handleSignIn(){
@@ -38,7 +38,9 @@
       const data = await api('/auth/signin', {method:'POST', body: JSON.stringify({ email, password: pass })});
       setAuth({ token: data.token, user: data.user });
       alert('Signed in: '+(data.user?.email||''));
-    }catch(e){ alert('Signin error: '+(e.data?.message||e.message)); }
+    }catch(e){
+      alert('Signin error: ' + (e.data?.message || e.message));
+    }
   }
 
   async function handleSignUp(){
@@ -47,12 +49,16 @@
     const pass  = prompt('Password (min 6):');
     if(!name||!email||!pass) return;
     try{
-      const data = await api('/auth/signup', {method:'POST', body: JSON.stringify({ name, email, password: pass })});
-      alert('User created: '+(data?.email||email)+'\nAhora inicia sesión.');
-    }catch(e){ alert('Signup error: '+(e.data?.message||e.message)); }
+      await api('/auth/signup', {method:'POST', body: JSON.stringify({ name, email, password: pass })});
+      alert('User created. Now sign in with the same email/password.');
+    }catch(e){
+      alert('Signup error: ' + (e.data?.message || e.message));
+    }
   }
 
   function handleLogout(){ setAuth(null); }
+
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 
   function renderResults(items){
     const mount = document.getElementById('results');
@@ -82,7 +88,7 @@
             await api('/articles', {
               method:'POST',
               body: JSON.stringify({
-                keyword: (it.keyword||'news'),
+                keyword: (document.querySelector('[data-search-input]')?.value||'news') || 'news',
                 title: it.title || 'Untitled',
                 text:  it.text  || '',
                 date:  it.date  || new Date().toISOString().slice(0,10),
@@ -99,12 +105,22 @@
   }
 
   async function showSaved(){
-    document.getElementById('savedView')?.classList.add('active');
+    const savedView = document.getElementById('savedView');
     const list = document.getElementById('savedList');
-    if(!state.token){ list.innerHTML='<p>Sign in to view saved articles.</p>'; return; }
+
+    if (savedView) savedView.style.display = 'block';
+    if (!list) { console.warn('#savedList no existe'); return; }
+
+    if (!state.token){
+      list.innerHTML = '<p>Sign in to view saved articles.</p>';
+      return;
+    }
     try{
       const data = await api('/articles');
-      if(!data.length){ list.innerHTML='<p>No saved articles.</p>'; return; }
+      if (!Array.isArray(data) || !data.length){
+        list.innerHTML = '<p>No saved articles.</p>';
+        return;
+      }
       list.innerHTML = data.map(a=>`
         <article class="card">
           <h3>${escapeHtml(a.title||'Untitled')}</h3>
@@ -122,11 +138,16 @@
           catch(e){ alert('Delete error: '+(e.data?.message||e.message)); }
         });
       });
-    }catch(e){ list.innerHTML='<p>Error loading saved.</p>'; console.error(e); }
+    }catch(e){
+      list.innerHTML = '<p>Error loading saved.</p>';
+      console.error(e);
+    }
   }
-  function hideSaved(){ document.getElementById('savedView')?.classList.remove('active'); }
 
-  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+  function hideSaved(){
+    const savedView = document.getElementById('savedView');
+    if (savedView) savedView.style.display = 'none';
+  }
 
   function wireHeader(){
     const btnSignin = document.querySelector('.auth.auth--guest .btn-outline, .auth.auth--guest .btn');
