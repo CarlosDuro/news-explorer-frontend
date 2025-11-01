@@ -42,8 +42,8 @@
   </header>
 
 <main class="container" style="padding:16px 0;">
-  <form id="searchForm" data-search-form class="row" style="gap:8px">
-    <input data-search-input type="text" placeholder="Buscar noticias..." style="flex:1; padding:8px;"/>
+  <form id="searchForm" role="search">
+    <input id="searchInput" name="q" type="search" placeholder="Buscar noticias..." autocomplete="on">
     <button class="btn" type="submit">Search</button>
   </form>
   <p id="resultsCount" class="text-muted"></p>
