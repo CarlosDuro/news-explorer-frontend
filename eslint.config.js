@@ -1,44 +1,29 @@
-import js from '@eslint/js';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import prettier from 'eslint-plugin-prettier';
-import globals from 'globals';
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
-export default [
-  // Ignorar archivos que no queremos lint
-  { ignores: ['eslint.config.js'] },
-
-  js.configs.recommended,
-
+export default defineConfig([
+  globalIgnores(['dist']),
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{js,jsx}'],
+    extends: [
+      js.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
+    ],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      // 👉 Aquí declaramos los globals del navegador
-      globals: {
-        ...globals.browser,
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
       },
     },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
-      prettier,
-    },
     rules: {
-      // Conjuntos recomendados de los plugins
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      ...jsxA11y.configs.recommended.rules,
-
-      // Ajustes
-      'react/react-in-jsx-scope': 'off',
-      'prettier/prettier': 'warn',
-    },
-    settings: {
-      react: { version: 'detect' },
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
-];
+])

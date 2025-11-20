@@ -8,21 +8,28 @@ const state = {
   user: JSON.parse(localStorage.getItem('user') || 'null'),
 };
 
+// Estado para paginar resultados de búsqueda
+const searchState = {
+  allItems: [],
+  visibleCount: 0,
+};
+
+// Referencias DOM para resultados
+const resultsSection = document.getElementById('results');
+const resultsBox = document.querySelector('[data-results]');
+const countLabel = document.getElementById('resultsCount');
+const resultsStatus = document.getElementById('resultsStatus');
+const showMoreBtn = document.getElementById('showMoreBtn');
+
 // helper de fetch
 async function api(path, opts = {}) {
-  const headers = Object.assign(
-    { 'Content-Type': 'application/json' },
-    opts.headers || {}
-  );
+  const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
   if (state.token) headers.Authorization = 'Bearer ' + state.token;
 
   const res = await fetch(API_BASE + path, { ...opts, headers });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw Object.assign(
-      new Error(data.message || 'Request error'),
-      { status: res.status, data }
-    );
+    throw Object.assign(new Error(data.message || 'Request error'), { status: res.status, data });
   }
   return data;
 }
@@ -165,16 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // navegación
   const homeLink = document.querySelector('.link-home');
   const savedLink = document.querySelector('.link-saved');
-  if (homeLink) homeLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    location.hash = '';
-    setRoute('');
-  });
-  if (savedLink) savedLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    location.hash = '#saved';
-    setRoute('#saved');
-  });
+  if (homeLink)
+    homeLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      location.hash = '';
+      setRoute('');
+    });
+  if (savedLink)
+    savedLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      location.hash = '#saved';
+      setRoute('#saved');
+    });
 
   updateAuthUI();
   setRoute(location.hash);

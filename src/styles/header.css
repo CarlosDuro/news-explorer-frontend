@@ -1,124 +1,168 @@
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--background);
-  border-bottom: 1px solid var(--border-color);
+@import '../styles/tokens.css';
+
+/* ========== HEADER BASE ========== */
+
+.site-header {
+  z-index: 30;
+  width: 100%;
+  border-bottom: 1px solid var(--color-header-border);
 }
-.header__inner {
+
+/* contenedor interior centrado */
+.site-header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  gap: var(--space-4);
 }
+
+/* Marca / logo */
 .brand {
-  font-weight: var(--font-bold);
-  font-size: var(--fs-lg);
+  font-weight: 700;
+  font-size: 20px;
 }
 
-.nav {
+/* Nav principal (Inicio / Artículos guardados) */
+.mainnav {
   display: flex;
+  gap: 24px;
   align-items: center;
-  gap: var(--space-6);
-}
-.nav a {
-  color: var(--main-text);
-  font-weight: var(--font-medium);
-}
-.nav a.active {
-  color: var(--accent-color);
+  margin-left: auto;
+  margin-right: 24px;
 }
 
-.auth {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-.btn-outline {
-  background: #fff;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-  padding: calc(var(--space-2) + 2px) var(--space-4);
-  border-radius: var(--radius);
-}
-.btn-outline:hover {
-  background: var(--accent-color);
-  color: #fff;
-}
-
-/* Hamburguesa */
-.burger {
-  display: none;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  background: #fff;
-  align-items: center;
-  justify-content: center;
-}
-.burger span {
-  width: 20px;
-  height: 2px;
-  background: var(--main-text);
+.mainnav a {
   position: relative;
-  display: block;
+  font-size: 14px;
+  text-decoration: none;
+  padding-bottom: 4px;
 }
-.burger span::before,
-.burger span::after {
+
+/* Estado activo (subrayado) */
+.mainnav a.is-active {
+  font-weight: 500;
+}
+
+.mainnav a.is-active::after {
   content: '';
   position: absolute;
   left: 0;
-  width: 20px;
+  right: 0;
+  bottom: 0;
   height: 2px;
-  background: var(--main-text);
-}
-.burger span::before {
-  top: -6px;
-}
-.burger span::after {
-  top: 6px;
+  border-radius: 999px;
 }
 
-/* Menu móvil */
+/* Bloques de auth */
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Pill con el nombre del usuario (lado derecho) */
+.auth-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background-color: transparent;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.auth-user-pill__name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-user-pill__icon {
+  font-size: 14px;
+}
+
+/* ---------- Variante HOME: header sobre el hero ---------- */
+
+.site-header--over-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: none;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35); /* línea blanca translúcida */
+}
+
+.site-header--over-hero .brand,
+.site-header--over-hero .mainnav a,
+.site-header--over-hero .auth-user-pill,
+.site-header--over-hero .auth--guest .btn-outline {
+  color: #ffffff;
+}
+
+.site-header--over-hero .mainnav a.is-active::after {
+  background-color: #ffffff;
+}
+
+.site-header--over-hero .auth--guest .btn-outline {
+  border-color: #ffffff;
+  background-color: transparent;
+}
+
+.site-header--over-hero .auth--guest .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Variante OTRAS PÁGINAS (Saved) ---------- */
+
+.site-header:not(.site-header--over-hero) {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+}
+
+.site-header:not(.site-header--over-hero) .brand,
+.site-header:not(.site-header--over-hero) .mainnav a {
+  color: var(--color-text-main);
+}
+
+.site-header:not(.site-header--over-hero) .mainnav a.is-active::after {
+  background-color: var(--color-text-main);
+}
+
+.site-header:not(.site-header--over-hero) .auth--guest .btn-outline {
+  color: var(--color-primary);
+  border-color: #bfdbfe;
+}
+
+/* header en saved: pill con texto oscuro */
+.site-header:not(.site-header--over-hero) .auth-user-pill {
+  color: var(--color-text-main);
+}
+
+/* ========== RESPONSIVE ========== */
+
 @media (max-width: 768px) {
-  .nav {
-    display: none;
+  .site-header-inner {
+    padding: 12px 16px;
+    gap: 12px;
   }
-  .burger {
-    display: inline-flex;
-  }
-  .mobile {
-    position: fixed;
-    inset: 64px 0 0 0;
-    background: #fff;
-    display: none;
-    padding: 16px;
-    border-top: 1px solid var(--border-color);
-  }
-  .mobile a {
-    display: block;
-    padding: 12px 8px;
-    color: var(--main-text);
-    border-radius: 8px;
-  }
-  .mobile a.active {
-    background: var(--surface);
-    color: var(--accent-color);
-  }
-  .mobile .auth {
-    margin-top: 12px;
-  }
-  .mobile.open {
-    display: block;
-  }
-}
 
-/* Estado autenticado/guest (controlado con .is-authenticated en <body>) */
-body.is-authenticated .auth--guest {
-  display: none;
-}
-body:not(.is-authenticated) .auth--user {
-  display: none;
+  .mainnav {
+    gap: 16px;
+    margin-right: 12px;
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .auth-user-pill {
+    padding: 6px 12px;
+  }
 }
