@@ -1,4 +1,4 @@
-/* src/components/Header/Header.css */
+/* src/styles/Header.css */
 @import './tokens.css';
 
 /* ========== HEADER BASE ========== */
@@ -101,7 +101,7 @@
   left: 0;
   right: 0;
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35); /* línea blanca translúcida */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .site-header--over-hero .brand,

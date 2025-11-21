@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
-import Header, { Footer } from './components/Header/Header.jsx';
+import Header from './components/Header/Header.jsx';
+import Footer from './components/Footer/Footer.jsx';
 import AuthModal from './components/AuthModal/AuthModal.jsx';
 import SuccessModal from './components/SuccessModal/SuccessModal.jsx';
 import SearchBar from './components/SearchBar/SearchBar.jsx';
